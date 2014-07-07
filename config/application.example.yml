@@ -1,0 +1,6 @@
+
+#Application Example YML file - showing which variables are used. 
+
+SENDGRID_USERNAME: 
+SENDGRID_PASSWORD: 
+DEVISE_SECRET_KEY: 
