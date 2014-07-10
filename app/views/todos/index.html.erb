@@ -1,0 +1,24 @@
+<h1> Outstanding To-dos</h1>
+
+<table class="table table-condensed table-hover table-rounded">
+  <tr>
+    
+    <td>Task</td>
+    <td>Days Left</td>
+    <td>Completed?</td>
+    <td>Delete</td>
+  </tr>
+
+  
+  <% @todos.each do |todo| %>
+    <tr> 
+      
+      <td><%= todo.description %></td>
+      <% daysLeft = 7 - ((Time.now - todo.created_at).to_i / 1.day) %>
+      <td><%= "#{daysLeft}" %></td> 
+      <td><%= check_box_tag("completed", value = "1", checked = false)%></td> 
+      <td><%= link_to "", @todo_id, method: :destroy, class: 'btn btn-xs glyphicon glyphicon-trash'%></td>
+    </tr>
+  <% end %>
+</table> 
+
