@@ -14,8 +14,21 @@ class TodosController < ApplicationController
     authorize @todos
   end
 
+ def update
+    @todo = Todo.find(params[:todo_id])
+    authorize @todo
+    if @todo.update_attributes(todo_params)
+      flash[:notice] = "Todo was updated."
+      redirect_to [@todo]
+    else
+      flash[:error] = "There was an error updating the todo. Please try again."
+      render :new
+    end
+  end
+
+
   def destroy
-    @todo = Todo.find(params[:id])
+    @todo = current_user.todos.build(params.require(@todo).permit(:description))
     description = @todo.description
 
     if @todo.destroy
