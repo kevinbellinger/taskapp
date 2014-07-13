@@ -1,14 +1,17 @@
 class TodosController < ApplicationController
 
   def new
+
   end
 
   def show
     @todo = Todo.find params[:id]
+    authorize @todo
   end
 
   def index
-    @todos = Todo.all
+    @todos = Todo.visible_to(current_user).where("todos.created_at > ?",7.days.ago)
+    authorize @todos
   end
 
   def destroy
@@ -17,7 +20,7 @@ class TodosController < ApplicationController
 
     if @todo.destroy
       flash[:notice] = "\"#{name}\" was deleted successfully."
-      redirect_to todos_path
+      redirect_to @todos
     else
       flash[:error] = "There was an error deleting the todo."
       render :index
@@ -25,7 +28,9 @@ class TodosController < ApplicationController
   end
 
   def create
-    @todo = Todo.new(todo_params)
+
+    @todo = current_user.todos.build(params.require(:todo).permit(:description))
+
       if @todo.save
         flash[:notice] = 'Your new TODO was saved'
         redirect_to @todo
