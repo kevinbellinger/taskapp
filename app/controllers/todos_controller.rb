@@ -10,7 +10,8 @@ class TodosController < ApplicationController
   end
 
   def index
-    @todos = Todo.visible_to(current_user).where("todos.created_at > ?",7.days.ago)
+    @todo = Todo.new
+    @todos = current_user.todos.where(completed: false)
     authorize @todos
   end
 
@@ -28,9 +29,7 @@ class TodosController < ApplicationController
 
 
   def destroy
-    @todo = current_user.todos.build(params.require(@todo).permit(:description))
-    description = @todo.description
-
+    @todo = current_user.todos.build(todo_params)
     if @todo.destroy
       flash[:notice] = "\"#{name}\" was deleted successfully."
       redirect_to @todos
@@ -42,11 +41,11 @@ class TodosController < ApplicationController
 
   def create
 
-    @todo = current_user.todos.build(params.require(:todo).permit(:description))
+    @todo = current_user.todos.build(todo_params)
 
       if @todo.save
         flash[:notice] = 'Your new TODO was saved'
-        redirect_to @todo
+        redirect_to todos_index_path
       else
         flash[:notice] = 'Your TODO was not saved'
         render :new
@@ -56,6 +55,6 @@ class TodosController < ApplicationController
   private
 
   def todo_params
-    params.require(:todo).permit(:id, :description)
+    params.require(:todo).permit(:description)
   end
 end

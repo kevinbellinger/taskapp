@@ -16,8 +16,8 @@
       <td><%= todo.description %></td>
       <% daysLeft = 7 - ((Time.now - todo.created_at).to_i / 1.day) %>
       <td><%= "#{daysLeft}" %></td> 
-      <td><%= check_box_tag("completed", value = "1", checked = false)%></td> 
-      <td><%= link_to "", @todo_id, method: :update, class: 'btn btn-xs glyphicon glyphicon-trash'%></td>
+      <td><%= check_box_tag("completed", value = "false", checked = false)%></td> 
+      <td><%= link_to "", @todo_id, method: :destroy, class: 'btn btn-xs glyphicon glyphicon-trash'%></td>
     </tr>
   <% end %>
 </table> 

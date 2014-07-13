@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -18,7 +17,7 @@ ActiveRecord::Schema.define(version: 20140713200618) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
-    t.integer  "completed"
+    t.integer  "completed", default: "", null:false
   end
 
   add_index "todos", ["user_id"], name: "index_todos_on_user_id"
