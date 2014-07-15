@@ -20,8 +20,8 @@ caitlin.save
 
 
 
-# Create Posts
-50.times do
+# Create Todos
+20.times do
   todo = Todo.create(
     user:   kevin,
     description: Faker::Lorem.sentence,
@@ -32,8 +32,8 @@ caitlin.save
 end
 todos = Todo.all
 
-# Create Posts
-50.times do
+# Create Todos
+20.times do
   todo = Todo.create(
     user:   caitlin,
     description: Faker::Lorem.sentence,

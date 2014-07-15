@@ -73,6 +73,8 @@ end
 #Adding Pundit
 gem 'pundit' 
 
+#Adding Whenever
+gem 'whenever'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

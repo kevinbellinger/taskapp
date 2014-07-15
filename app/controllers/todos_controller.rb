@@ -1,11 +1,13 @@
 class TodosController < ApplicationController
 
+  respond_to :html, :js
+  
   def new
 
   end
 
   def show
-    @todo = Todo.find params[:id]
+    @todo = current_user.todos.find(params[:id])
     authorize @todo
   end
 
@@ -16,7 +18,7 @@ class TodosController < ApplicationController
   end
 
  def update
-    @todo = Todo.find(params[:todo_id])
+    @todo = current_user.todos.find(params[:todo_id])
     authorize @todo
     if @todo.update_attributes(todo_params)
       flash[:notice] = "Todo was updated."
@@ -28,16 +30,36 @@ class TodosController < ApplicationController
   end
 
 
-  def destroy
-    @todo = current_user.todos.build(todo_params)
+ # def destroy
+  #  @todo = current_user.todos.find(params[:todo_id])
+   # if @todo.destroy
+    #  flash[:notice] = "\"#{name}\" was deleted successfully."
+     # redirect_to @todos
+  #  else
+   #   flash[:error] = "There was an error deleting the todo."
+    #  render :index
+  #  end
+ # end
+
+def destroy
+    @todo = Todo.find params[:id]
+    authorize @todo
+    desc = @todo.description
     if @todo.destroy
-      flash[:notice] = "\"#{name}\" was deleted successfully."
-      redirect_to @todos
+      flash[:notice] = "The todo #{desc} was deleted successfully."
     else
-      flash[:error] = "There was an error deleting the todo."
-      render :index
+      flash[:error] = "There was an error deleting the Todo item"
+    end
+
+    respond_with(@todo) do |f|
+      f.html { redirect_to todos_path }
     end
   end
+
+
+
+
+
 
   def create
 
@@ -45,7 +67,7 @@ class TodosController < ApplicationController
 
       if @todo.save
         flash[:notice] = 'Your new TODO was saved'
-        redirect_to todos_index_path
+        redirect_to todos_path 
       else
         flash[:notice] = 'Your TODO was not saved'
         render :new
@@ -55,6 +77,6 @@ class TodosController < ApplicationController
   private
 
   def todo_params
-    params.require(:todo).permit(:description)
+    params.require(:todo).permit(:description, :completed)
   end
 end
