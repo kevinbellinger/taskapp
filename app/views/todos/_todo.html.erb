@@ -1,13 +1,10 @@
 <%= content_tag :tr, id: "todo-#{todo.id}" do %>
   <% if policy(todo).show? && current_user.id == todo.user_id %>
-    <td><%= link_to todo.description, todo %></td>
-    <td><% daysLeft = 7 - ((Time.now - todo.created_at).to_i / 1.day) %></td>
-  <td>
-        <%= check_box_tag("completed", value = "false", checked = false)%>
-      </td> 
-    <td>
-      <%= link_to '', todo, id: 'todo-delete', method: :delete, class: 'glyphicon glyphicon-trash', remote: true %>
-    </td>
+      <td><%= link_to todo.description, todo %></td>
+      <% daysLeft = 7 - ((Time.now - todo.created_at).to_i / 1.day) %>
+      <td><%= "#{daysLeft}" %></td>
+     <td><%= link_to '', todo, id: 'todo-delete', method: :delete, class: 'glyphicon glyphicon-ok-circle', remote: true %></td>
+    <td><%= link_to '', todo, id: 'todo-delete', method: :delete, class: 'glyphicon glyphicon-remove-circle', remote: true %></td>
   <% end %>
 </tr>
 <% end %>
