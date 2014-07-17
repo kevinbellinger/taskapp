@@ -19,6 +19,7 @@
 
 # Learn more: http://github.com/javan/whenever
 
+set :output, "/code/taskapp/log/cron_log.log"
 
 every 24.hours do
   rake "delete_items"
